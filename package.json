@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "build": "mkdir -p dist && cp index.html manifest.json capacitor.config.ts package.json server.js dist/",
     "start": "node server.js"
   },
   "dependencies": {
