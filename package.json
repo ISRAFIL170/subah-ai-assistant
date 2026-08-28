@@ -3,7 +3,7 @@
   "version": "1.0.0",
 "scripts": {
   "build": "mkdir -p dist && cp index.html dist/ && cp manifest.json dist/ && cp capacitor.config.ts dist/"
-}
+},
   "dependencies": {
     "@capacitor/android": "^5.0.0",
     "@capacitor/cli": "^5.0.0",
