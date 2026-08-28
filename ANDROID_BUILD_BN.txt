@@ -1,0 +1,11 @@
+দ্রুত APK বানানোর ধাপ:
+1) ZIP Extract করো
+2) Folder-এর ভিতরে terminal খুলে npm install
+3) npx cap add android
+4) npx cap sync android
+5) npx cap open android
+6) Android Studio খুললে Gradle sync শেষ হওয়া পর্যন্ত অপেক্ষা করো
+7) Build > Build Bundle(s) / APK(s) > Build APK(s)
+8) তৈরি হওয়া debug APK: android/app/build/outputs/apk/debug/
+
+নোট: AI চালাতে backend HTTPS server দরকার।
