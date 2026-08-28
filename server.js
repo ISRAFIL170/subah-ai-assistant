@@ -1,22 +1,22 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// MIDDLEWARE
+// Middleware
 app.use(cors());
 app.use(express.json({ limit: '1mb' }));
-app.use(express.static('dist')); // 'public' না হয়ে 'dist' ব্যবহার করো
 
-// HEALTH CHECK
+// Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Server is running' });
 });
 
-// GOOGLE PLACE SEARCH (সঠিক API)
+// Search API
 app.post('/api/search', async (req, res) => {
   try {
     const { query } = req.body;
@@ -30,31 +30,28 @@ app.post('/api/search', async (req, res) => {
     }
 
     const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(query)}&key=${apiKey}`;
-    
     const response = await fetch(url);
     const data = await response.json();
 
     if (data.status !== 'OK') {
-      return res.status(400).json({ error: data.status, message: data.error_message });
+      return res.status(400).json({ error: data.status });
     }
 
     const results = data.results.map(place => ({
       name: place.name,
       address: place.formatted_address,
       rating: place.rating,
-      user_ratings_total: place.user_ratings_total,
-      location: place.geometry.location,
-      place_id: place.place_id
+      location: place.geometry?.location
     }));
 
     res.json({ results });
   } catch (error) {
-    console.error('Search error:', error);
+    console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// SERVER LISTEN (সব নেটওয়ার্ক থেকে অ্যাক্সেসযোগ্য)
+// Start server
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`✅ Server running at http://0.0.0.0:${PORT}`);
+  console.log(`✅ Server running on port ${PORT}`);
 });
